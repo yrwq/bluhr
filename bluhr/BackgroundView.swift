@@ -12,40 +12,52 @@ struct BackgroundView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Main blur overlay
-                Rectangle()
-                    .fill(Color.white.opacity(0.3))
-                    .blur(radius: 50)
+                // Transparent background to let wallpaper show through
+                Color.clear
                 
-                // Secondary blur layer
-                Rectangle()
-                    .fill(Color.black.opacity(0.1))
-                    .blur(radius: 30)
-                
-                // Additional visual elements to make overlay more obvious
-                ForEach(0..<5) { i in
-                    Circle()
-                        .fill(Color.white.opacity(0.1))
-                        .frame(width: CGFloat(100 + i * 50), height: CGFloat(100 + i * 50))
-                        .blur(radius: CGFloat(20 + i * 10))
-                        .offset(x: CGFloat(i * 100), y: CGFloat(i * 50))
-                }
-                
-                // Subtle grid pattern
-                VStack(spacing: 50) {
-                    ForEach(0..<10) { _ in
-                        HStack(spacing: 50) {
-                            ForEach(0..<20) { _ in
-                                Rectangle()
-                                    .fill(Color.white.opacity(0.02))
-                                    .frame(width: 2, height: 2)
-                            }
-                        }
-                    }
-                }
-                .blur(radius: 5)
+                // Blur overlay using NSVisualEffectView
+                BlurOverlayView()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
         }
+    }
+}
+
+struct BlurOverlayView: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView()
+        view.wantsLayer = true
+        
+        // Create multiple visual effect views for layered blur
+        let blurView1 = NSVisualEffectView()
+        blurView1.material = .hudWindow
+        blurView1.state = .active
+        blurView1.blendingMode = .behindWindow
+        blurView1.frame = view.bounds
+        blurView1.autoresizingMask = [.width, .height]
+        
+        let blurView2 = NSVisualEffectView()
+        blurView2.material = .menu
+        blurView2.state = .active
+        blurView2.blendingMode = .behindWindow
+        blurView2.frame = view.bounds
+        blurView2.autoresizingMask = [.width, .height]
+        
+        let blurView3 = NSVisualEffectView()
+        blurView3.material = .popover
+        blurView3.state = .active
+        blurView3.blendingMode = .behindWindow
+        blurView3.frame = view.bounds
+        blurView3.autoresizingMask = [.width, .height]
+        
+        view.addSubview(blurView1)
+        view.addSubview(blurView2)
+        view.addSubview(blurView3)
+        
+        return view
+    }
+    
+    func updateNSView(_ nsView: NSView, context: Context) {
+        // Update if needed
     }
 }

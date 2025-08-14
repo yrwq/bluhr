@@ -12,10 +12,9 @@ struct BackgroundView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Transparent background to let wallpaper show through
+                // transparent background to let wallpaper show through
                 Color.clear
                 
-                // Blur overlay using NSVisualEffectView
                 BlurOverlayView()
                     .frame(width: geometry.size.width, height: geometry.size.height)
             }
@@ -28,7 +27,7 @@ struct BlurOverlayView: NSViewRepresentable {
         let view = NSView()
         view.wantsLayer = true
         
-        // Create multiple visual effect views for layered blur
+        // create multiple visual effect views for layered blur
         let blurView1 = NSVisualEffectView()
         blurView1.material = .hudWindow
         blurView1.state = .active
@@ -58,6 +57,6 @@ struct BlurOverlayView: NSViewRepresentable {
     }
     
     func updateNSView(_ nsView: NSView, context: Context) {
-        // Update if needed
+        // update if needed
     }
 }

@@ -12,19 +12,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var backgroundPanel: NSPanel?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Set up notifications for screen changes
+        // notification for screen changes
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(screenParametersDidChange(_:)),
             name: NSApplication.didChangeScreenParametersNotification,
             object: nil)
         
-        // Initial setup
+        // initial setup
         setupPanels()
     }
     
     func applicationWillTerminate(_ notification: Notification) {
-        // Clean up panels
+        // clean up panels
         backgroundPanel?.close()
         backgroundPanel = nil
     }
@@ -65,7 +65,5 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         newPanel.orderFront(nil)
         newPanel.makeKeyAndOrderFront(nil)
         panel = newPanel
-        
-        print("Background panel created with frame: \(frame)")
     }
 }
